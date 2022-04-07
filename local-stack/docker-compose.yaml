@@ -1,0 +1,23 @@
+version: '3.7'
+
+services:
+    authorization-server:
+        working_dir: /authorization_server
+        container_name: authorization-server
+        build:
+            context: ../
+            dockerfile: ./local-stack/Dockerfile
+        volumes:
+            - ../:/authorization_server
+#        ports:
+#            - "443:443"
+        networks:
+            main-net:
+                ipv4_address: 172.30.0.6
+        # For python with serverless offline we need --functionCleanupIdleTimeSeconds. Check: https://github.com/dherault/serverless-offline/issues/1027
+        command: bash -c "cp ./serverless.yml.local serverless.yml -v && /authorization_server/node_modules/serverless/bin/serverless.js offline start --functionCleanupIdleTimeSeconds 5"
+
+
+networks:
+    main-net:
+        external: true

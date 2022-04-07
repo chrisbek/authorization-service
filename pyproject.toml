@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "authorization-server"
+version = "0.1.0"
+description = ""
+authors = ["Christophoros <bekos.christopher@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pydantic = "1.9.0"
+fastapi = "0.74.1"
+mangum = "0.13.0"
+dependency-injector = "4.39.1"
+PyJWT = {extras = ["crypto"], version = "^2.3.0"}
+sqlmodel = "^0.0.6"
+PyMySQL = {extras = ["rsa"], version = "^1.0.2"}
+alembic = "^1.7.7"
+rsa = "^4.8"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

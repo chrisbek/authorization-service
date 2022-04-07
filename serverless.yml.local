@@ -1,0 +1,39 @@
+service: authentication-server
+
+frameworkVersion: '3'
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: python3.8
+  region: ${env:AWS_REGION}
+  lambdaHashingVersion: 20201221
+  environment:
+    PLATFORM: 'local'
+    BASE_URL: 'https://authorization-server.local'
+    LOG_LEVEL: ${env:LOG_LEVEL}
+    REGION: ${env:AWS_REGION}
+    PUBLIC_KEY: ${file(./keys/public.key)}
+    PRIVATE_KEY: ${file(./keys/private.key)}
+
+functions:
+  app:
+    handler: app.main.handler
+    events:
+      - http: ANY /
+      - http: 'ANY /{proxy+}'
+
+custom:
+  serverless-offline:
+    httpPort: 80
+    host: 0.0.0.0
+    noPrependStageInUrl: true
+  logRetentionInDays: 1
+  pythonRequirements:
+    usePoetry: false
+
+plugins:
+  - serverless-python-requirements
+  - serverless-plugin-log-retention
+  - serverless-offline
+  - serverless-iam-roles-per-function
